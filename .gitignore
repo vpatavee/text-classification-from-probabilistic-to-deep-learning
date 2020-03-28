@@ -1,0 +1,10 @@
+venv/*
+*.bin
+*.pkl
+*.txt
+*.text
+.DS_Store
+.ipynb_checkpoints/*
+.vscode/*
+Untitled.ipynb
+__pycache__/*

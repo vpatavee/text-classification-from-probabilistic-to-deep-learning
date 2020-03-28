@@ -13,6 +13,9 @@ We use [IMDB Reviews](https://www.tensorflow.org/datasets/catalog/imdb_reviews).
 
 ## Probabilistic Models
 
+**Representation**
+Vector Representation is the process
+
 **Preprocessing**
 1. Remove HTML
 2. Remove HTML and Non-Ascii
@@ -24,12 +27,13 @@ We use [IMDB Reviews](https://www.tensorflow.org/datasets/catalog/imdb_reviews).
 4. Spacy Tokenizer + LowerCase + Lematization + Remove Stop Words
 5. Spacy Tokenizer + LowerCase + Lematization + Remove Stop Words + Remove Punctuation
 
-**Representation**
+**Vectorization**
 There are several choices of text representations, as described in [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/).
 1. Vectorization: Binary vs Multinomial 
 2. Ngram: 1, 2
+3. TFIDF: Count
 
-With 2 types of preprocessing, 5 types of tokenizations, 2 types of vectorization and 2 types of ngrams, we can create 80 different type of vectorizations.
+With these variations, we can create 80 different types of vector representation.
 
 **Models**
 1. Logistic Regression
