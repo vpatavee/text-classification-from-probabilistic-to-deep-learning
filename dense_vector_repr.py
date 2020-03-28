@@ -6,13 +6,14 @@ from nlp_utils import preprocess_remove_html_non_ascii, preprocess_remove_html, 
     spacy_tokenizer_lower_lemma, spacy_tokenizer_lower_lemma_remove_stop, spacy_tokenizer_lower_lemma_remove_stop_and_punc
 
 
+# Try to make it resemble to Scikit-learn Countvectorizer
 class DenseVectorizer:
     class Polling:
         norm = "norm"
         sum = "SUM"
         log = "LOG"
         
-    def __init__(self, model, tokenizer, preprocessor, tfidf, polling, is_extend_unk_word, print_stat=False):
+    def __init__(self, model, tokenizer, preprocessor, tfidf, polling, is_extend_unk_word=False, print_stat=False):
         self.model = model 
         self.tokenizer = tokenizer
         self.preprocessor = preprocessor
