@@ -28,6 +28,9 @@ def spacy_tokenizer(sent):
 def spacy_tokenizer_lower(sent):
     return [e.orth_.lower() for e in nlp(sent)]
 
+def spacy_tokenizer_lower_sub(sent):
+    return [sub(e) for e in nlp(sent)]
+
 def spacy_tokenizer_lower_lemma(sent):
     return [e.lemma_.lower() for e in nlp(sent)]
 
@@ -40,7 +43,24 @@ def spacy_tokenizer_lower_lemma_remove_stop_and_punc(sent):
 def spacy_tokenizer_remove_stop(sent):
     return [e.orth_ for e in nlp(sent) if not e.is_stop]
 
-def print_stat(list_of_text):
+def sub(tok):
+    if tok.is_digit and tok.like_num:
+        return "<<DIGIT>>"
+    if tok.is_space:
+        return " "
+    if tok.like_url:
+        return "<<URL>>"
+    if tok.like_email:
+        return "<<EMAIL>>"
+    if tok.is_currency:
+        return "<<$$>>"
+    if tok.is_punct:
+        return "<<PUNCT>>"
+    
+    return tok.orth_
+
+
+def print_stat(list_of_text, models=None):
     """
     print
     - average number of char
@@ -56,9 +76,16 @@ def print_stat(list_of_text):
     counter = Counter([e.orth_ for s in tokenized for e in s if not e.is_stop and not e.is_punct])
     print("total number of vocab without stop words", len(counter))
     print("most common:", counter.most_common()[:5])
+
+    vocabs = set(counter.keys())
+    if models:
+        for model_name, model in models.items():
+            num_oov = len(vocabs) - len(vocabs & set(model.vocab.keys()))
+            print("word embedding model: {}, num oov: {}, percent of oov: {:.2f}".format(model_name, num_oov, num_oov/ len(vocabs))) 
+
     print("\nexample")
     len_ = len(list_of_text)
     print(list_of_text[len_//2])
     print()
     print(list_of_text[len_//4])
-    
+

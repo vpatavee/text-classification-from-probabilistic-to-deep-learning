@@ -3,7 +3,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
 import pandas as pd
 from nlp_utils import preprocess_remove_html_non_ascii, preprocess_remove_html, spacy_tokenizer, spacy_tokenizer_lower, \
-    spacy_tokenizer_lower_lemma, spacy_tokenizer_lower_lemma_remove_stop, spacy_tokenizer_lower_lemma_remove_stop_and_punc
+    spacy_tokenizer_lower_lemma, spacy_tokenizer_lower_lemma_remove_stop, spacy_tokenizer_lower_lemma_remove_stop_and_punc, spacy_tokenizer_lower_sub
 
 
 def create_dense_vects(preprocessors, tokenizers, pollings, tfidf, models):
@@ -37,13 +37,22 @@ def create_dense_vects(preprocessors, tokenizers, pollings, tfidf, models):
 def run_logistic_word_emb_exp(X_train, X_test, y_train, y_test, models):
 
     # models = {"word2vec": model_word2vec, "glove": model_glove}
+    # preprocessors = [preprocess_remove_html_non_ascii]
+    # tfidf = [True, False]
+    # tokenizers = [spacy_tokenizer, spacy_tokenizer_lower_lemma]
+    # pollings = [
+    #     DenseVectorizer.Polling.norm,
+    #     DenseVectorizer.Polling.log,
+    #     DenseVectorizer.Polling.sum
+    # ]
+
     preprocessors = [preprocess_remove_html_non_ascii]
-    tfidf = [True, False]
-    tokenizers = [spacy_tokenizer_lower_lemma_remove_stop, spacy_tokenizer, spacy_tokenizer_lower_lemma]
+    tfidf = [False]
+    tokenizers = [spacy_tokenizer_lower_sub]
     pollings = [
-        DenseVectorizer.Polling.norm,
+
         DenseVectorizer.Polling.log,
-        DenseVectorizer.Polling.sum
+
     ]
 
     dense_vects = create_dense_vects(

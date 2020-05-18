@@ -1,10 +1,12 @@
 venv/*
 *.bin
+tmp*
 *.pkl
 *.txt
+*.npy
 *.text
 .DS_Store
 .ipynb_checkpoints/*
 .vscode/*
-Untitled.ipynb
+Untitled*.ipynb
 __pycache__/*

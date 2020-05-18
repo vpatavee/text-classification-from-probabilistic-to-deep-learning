@@ -36,8 +36,6 @@ class DenseVectorizer:
             self._create_oov(raw_documents)
         return self.transform(raw_documents, True)
 
-    
-
     def transform(self, raw_documents, fit=False):
         if self.polling == self.Polling.sum:
             return self._transform_sum_norm(raw_documents, False)
@@ -53,7 +51,9 @@ class DenseVectorizer:
 
         dim = self.model.vector_size + len(self.idx2oov) if self.is_extend_unk_word else self.model.vector_size 
         num_doc = len(raw_documents)
-        mat = np.zeros([num_doc, dim])
+        # mat = np.zeros([num_doc, dim])
+
+        mat = np.random.rand(num_doc, dim) * 1e-10
 
         for i, doc in enumerate(raw_documents):
             doc = self.preprocessor(doc)
@@ -92,6 +92,7 @@ class DenseVectorizer:
         dim = self.model.vector_size + len(self.idx2oov) if self.is_extend_unk_word else self.model.vector_size
         num_doc = len(raw_documents)
         mat = np.zeros([num_doc, dim])
+        # mat = np.random.rand(num_doc, dim) * 1e-10
 
         for i, doc in enumerate(raw_documents):
             doc = self.preprocessor(doc)
