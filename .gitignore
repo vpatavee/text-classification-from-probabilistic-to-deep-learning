@@ -2,7 +2,6 @@ venv/*
 *.bin
 tmp*
 *.pkl
-*.txt
 *.npy
 *.text
 .DS_Store
