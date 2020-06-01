@@ -48,7 +48,7 @@ def run_logistic_word_emb_exp(X_train, X_test, y_train, y_test, models):
 
     preprocessors = [preprocess_remove_html_non_ascii]
     tfidf = [False]
-    tokenizers = [spacy_tokenizer_lower_sub]
+    tokenizers = [spacy_tokenizer_lower]
     pollings = [
 
         DenseVectorizer.Polling.log,
