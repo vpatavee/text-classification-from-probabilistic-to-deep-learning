@@ -1,9 +1,11 @@
 venv/*
 *.bin
-tmp*
 *.pkl
 *.npy
 *.text
+*.txt
+*.gz
+*.tar
 .DS_Store
 .ipynb_checkpoints/*
 .vscode/*

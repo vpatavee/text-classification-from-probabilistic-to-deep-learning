@@ -19,13 +19,13 @@ def download_tfds_imdb_as_text():
             return pickle.load(f)
         
     else:
-        print("Downloading dataset...", e)
+        print("Downloading dataset...")
         (train_data, test_data), _ = tfds.load(
             'imdb_reviews/plain_text', 
             split = (tfds.Split.TRAIN, tfds.Split.TEST), 
             with_info=True, as_supervised=True) 
 
-        print("Finish downloading dataset!")
+        
 
         X_train = [e[0].numpy().decode("utf-8") for e in train_data ]
         X_test = [e[0].numpy().decode("utf-8") for e in test_data ]
@@ -38,10 +38,11 @@ def download_tfds_imdb_as_text():
 
         print("number of training samples", len(X_train))
         print("number of testing samples", len(X_test))
-        
+                              
         with open(PICKLE_FILE_NAME, "wb") as f:
             pickle.dump((X_train, X_test, y_train, y_test), f)
-
+            
+        print("Finish downloading dataset and save to disk!")
         return X_train, X_test, y_train, y_test
 
 def download_tfds_imdb_as_tensor_subword_8k():
