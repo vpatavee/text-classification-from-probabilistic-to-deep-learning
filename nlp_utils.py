@@ -1,64 +1,69 @@
 import spacy
-from bs4 import BeautifulSoup
+import pickle
 import numpy as np
 from collections import Counter
+from spacy.tokens import DocBin
+import os
+import hashlib
+
+nlp = spacy.load("en_core_web_sm")
+SPACY_DOC_PATH = "tmp/spacy_doc"
 
 
-nlp = spacy.load("en_core_web_sm", disable=['ner', 'parser', 'tagger'])
-
-def remove_html(text):
-    soup = BeautifulSoup(text, "html.parser")
-    return soup.get_text(separator=" ")
-
-def remove_non_ascii(text):
-    return ''.join([i if ord(i) < 128 else ' ' for i in text])
-
-def preprocess_remove_html_non_ascii(text):
-    text = remove_html(text)
-    text = remove_non_ascii(text)
-    return text.strip()
-
-def preprocess_remove_html(text):
-    text = remove_html(text)
-    return text.strip()
-
-def spacy_tokenizer(sent):
-    return [e.orth_ for e in nlp(sent)]
-
-def spacy_tokenizer_lower(sent):
-    return [e.orth_.lower() for e in nlp(sent)]
-
-def spacy_tokenizer_lower_sub(sent):
-    return [sub(e) for e in nlp(sent)]
-
-def spacy_tokenizer_lower_lemma(sent):
-    return [e.lemma_.lower() for e in nlp(sent)]
-
-def spacy_tokenizer_lower_lemma_remove_stop(sent):
-    return [e.lemma_.lower() for e in nlp(sent) if not e.is_stop]
-
-def spacy_tokenizer_lower_lemma_remove_stop_and_punc(sent):
-    return [e.lemma_.lower() for e in nlp(sent) if not e.is_stop and not e.is_punct]
-
-def spacy_tokenizer_remove_stop(sent):
-    return [e.orth_ for e in nlp(sent) if not e.is_stop]
-
-def sub(tok):
-    if tok.is_digit and tok.like_num:
-        return "<<DIGIT>>"
-    if tok.is_space:
-        return " "
-    if tok.like_url:
-        return "<<URL>>"
-    if tok.like_email:
-        return "<<EMAIL>>"
-    if tok.is_currency:
-        return "<<$$>>"
-    if tok.is_punct:
-        return "<<PUNCT>>"
+def load_or_create_spacy_doc(sents, use_cache=True):
+    """
+    @sents list of string to be tokenized.
+    @use_cache if true, try load from disk first. Otherwise, tokenize.
+    @return DocBin object
+    """
     
-    return tok.orth_
+    fname = SPACY_DOC_PATH + hash_sents(sents) + ".bin"
+    
+    if os.path.exists(fname) and use_cache:
+        print("Load tokenized document from disk")
+        with open(fname, "rb") as f:
+            doc_bin = DocBin().from_bytes(f.read())
+        return doc_bin
+    else:
+        print("Start tokenizing document...")
+        doc_bin = DocBin()
+        for doc in nlp.pipe(sents, disable=["parser", "tagger"]):
+            doc_bin.add(doc)
+        with open(fname, "wb") as f:
+            f.write(doc_bin.to_bytes())
+        print("Finish tokenizing document and save to disk!")
+        return doc_bin
 
+def is_ignore(tok, ignore):
+    for ignore_attr in ignore:
+        if getattr(tok, ignore_attr):
+            return True
+    return False
+
+def hash_sents(sents):
+    m = hashlib.md5()
+    for e in sents:
+        m.update(e.encode('utf-8')) 
+    return  m.hexdigest()
+
+def spacy_tokenizer(sents, lower=False, lemma=False, ignore=None, use_cache=True):
+    doc_bin = load_or_create_spacy_doc(sents, use_cache)
+    docs = list()
+    for doc_obj in doc_bin.get_docs(nlp.vocab):
+        doc = list()
+        for tok_obj in doc_obj:
+            if ignore and is_ignore(tok_obj, ignore):
+                continue
+            if lemma:
+                tok = tok_obj.lemma_
+            else:
+                tok = tok_obj.orth_
+            if lower:
+                doc.append(tok.lower())
+            else:
+                doc.append(tok)
+        docs.append(doc)
+    return docs
 
 def print_stat(list_of_text, models=None):
     """
