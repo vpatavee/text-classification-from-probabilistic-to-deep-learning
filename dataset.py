@@ -45,6 +45,11 @@ def download_tfds_imdb_as_text():
         print("Finish downloading dataset and save to disk!")
         return X_train, X_test, y_train, y_test
 
+def download_tfds_imdb_as_text_tiny():
+    X_train, X_test, y_train, y_test = download_tfds_imdb_as_text()
+    return X_train[:100], X_test[:100], y_train[:100], y_test[:100]
+
+
 def download_tfds_imdb_as_tensor_subword_8k():
     (train_data, test_data), info = tfds.load(
         'imdb_reviews/subwords8k', 
