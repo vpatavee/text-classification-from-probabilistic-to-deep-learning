@@ -1,8 +1,8 @@
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import f1_score, classification_report
+from sklearn.metrics import f1_score
 from sklearn.model_selection import GridSearchCV
-from dense_vector_repr import DenseVectorizer
-from nlp_utils import spacy_tokenizer
+from lib.dense_vector_repr import DenseVectorizer
+from lib.nlp_utils import spacy_tokenizer
 
 random_state = 999
 
