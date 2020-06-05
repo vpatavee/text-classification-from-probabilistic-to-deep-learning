@@ -73,11 +73,9 @@ class DenseVectorizer:
         return mat
 
     def _cal_idf(self, raw_documents):
-
         num_docs = len(raw_documents)
         for doc in raw_documents:
-            tokens = list(set(self.tokenizer(doc)))
-            for tok in tokens:
+            for tok in list(set(doc)):
                 self.idf[tok] += 1
 
         for word in self.idf:

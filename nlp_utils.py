@@ -46,7 +46,7 @@ def hash_sents(sents):
         m.update(e.encode('utf-8')) 
     return  m.hexdigest()
 
-def spacy_tokenizer(sents, lower=False, lemma=False, ignore=None, use_cache=True):
+def spacy_tokenizer(sents, lower=False, lemma=False, ignore=None, use_cache=True, **kwargs):
     doc_bin = load_or_create_spacy_doc(sents, use_cache)
     docs = list()
     for doc_obj in doc_bin.get_docs(nlp.vocab):
