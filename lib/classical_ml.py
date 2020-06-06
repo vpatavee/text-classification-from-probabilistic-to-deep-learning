@@ -22,7 +22,8 @@ def create_vectorizer_object(is_tfidf, is_bigram):
         def analyzer(x):
             bigram = list()
             for i in range(len(x)-1):
-                 bigram.append((x[i], x[i+1]))
+                 bigram.append((x[i] + "__,__" +  x[i+1]))
+            
             return x + bigram
     else:
         def analyzer(x):
@@ -36,17 +37,18 @@ def create_vectorizer_object(is_tfidf, is_bigram):
     
     return vectorizer
 
-def create_model_obj(model_name):
-    if is_logistic:
+def create_model_obj(use_nb):
+    if use_nb:
+        model = MultinomialNB()
+        tuned_parameters = dict()    
+    else:
         model = LogisticRegression(
             random_state=random_state,
             max_iter=3000,
         )
-        
-    else:
-        model = MultinomialNB()
-    
-    return model
+        tuned_parameters = {"model__C": [ 10**n for n in range(-3, 3)]}
+
+    return model, tuned_parameters
         
 def run_pipeline(dataset, **kwargs):
     x_train, x_test, y_train, y_test = dataset
@@ -61,22 +63,21 @@ def run_pipeline(dataset, **kwargs):
     
     is_tfidf = kwargs.get("tfidf", False)
     is_bigram = kwargs.get("bigram", False)
-    is_logistic =  kwargs.get("model_name", False)
+    use_nb =  kwargs.get("use_nb", False)
     
     # vectorize   
     vectorizer = create_vectorizer_object(is_tfidf, is_bigram)
     
     # train model and evaluate
-    model = create_model_obj(is_logistic)
+    model, tuned_parameters = create_model_obj(use_nb)
             
     pipe = Pipeline(
         [
             ('vectorizer', vectorizer), 
-            ('logis', model )
+            ('model', model )
         ]
     )
-
-    tuned_parameters = {"logis__C": [ 10**n for n in range(-3, 3)]}
+    
     clf = GridSearchCV(
         pipe,
         param_grid=tuned_parameters,
