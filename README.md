@@ -9,7 +9,7 @@ TODO TODO TODO TODO TODO TODO TODO TODO
 TODO TODO TODO TODO TODO TODO TODO TODO
 
 
-**Why text classification problem set is so important? **
+**Why text classification problem set is so important?**
 
 I intentionally used word "Text Classification" not "Sentiment Analysis" for reasons. 
 While the dataset we use here is for sentiment analysis, we can apply the same concepts
@@ -46,6 +46,7 @@ DONTs
 - novel techniques
 
 **Prerequisite**
+
 - If you have background in ML but not NLP, you may follow each experiment one by one
 and follow the link to optional readings. At the end, you will learn fundamental concept
 of text classifcation problems are related NLP area.
@@ -53,12 +54,16 @@ of text classifcation problems are related NLP area.
 that you are interested in particular.
     
 **Environmental Setup**
+
     - Python 3.6, venv, requirements.txt, SpaCy
     - Models (for unning Notebook 2,3)
     - Models BERT (
     
 **Sections**
 
+TODO TODO TODO TODO TODO TODO TODO TODO
+TODO TODO TODO TODO TODO TODO TODO TODO
+TODO TODO TODO TODO TODO TODO TODO TODO
 
 ## 1. Classical Machine Learning Models
 
