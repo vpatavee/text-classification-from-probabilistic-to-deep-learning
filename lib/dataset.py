@@ -6,7 +6,7 @@ import os
 
 PICKLE_FILE_NAME = "tmp/imdb_data.pkl"
 
-def download_tfds_imdb_as_text():
+def download_tfds_imdb_as_text(verbose=False):
     """
     @return 
     X_train: list of string
@@ -15,17 +15,18 @@ def download_tfds_imdb_as_text():
     y_test: list of int
     """
     if os.path.exists(PICKLE_FILE_NAME):
+        if verbose:
+            print("Load dataset from disk!")
         with open(PICKLE_FILE_NAME, "rb") as f:
             return pickle.load(f)
         
     else:
-        print("Downloading dataset...")
+        if verbose:
+            print("Downloading dataset...")
         (train_data, test_data), _ = tfds.load(
             'imdb_reviews/plain_text', 
             split = (tfds.Split.TRAIN, tfds.Split.TEST), 
             with_info=True, as_supervised=True) 
-
-        
 
         X_train = [e[0].numpy().decode("utf-8") for e in train_data ]
         X_test = [e[0].numpy().decode("utf-8") for e in test_data ]
@@ -35,16 +36,15 @@ def download_tfds_imdb_as_text():
 
         assert len(X_train) == len(y_train)
         assert len(X_test) == len(y_test)
-
-        print("number of training samples", len(X_train))
-        print("number of testing samples", len(X_test))
                               
         with open(PICKLE_FILE_NAME, "wb") as f:
             pickle.dump((X_train, X_test, y_train, y_test), f)
-            
-        print("Finish downloading dataset and save to disk!")
+        
+        if verbose:
+            print("Finish downloading dataset and save to disk!")
         return X_train, X_test, y_train, y_test
 
+    
 def download_tfds_imdb_as_text_tiny():
     X_train, X_test, y_train, y_test = download_tfds_imdb_as_text()
     return X_train[:100], X_test[:100], y_train[:100], y_test[:100]

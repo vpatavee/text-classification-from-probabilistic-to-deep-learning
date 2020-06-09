@@ -1,4 +1,5 @@
 venv/*
+*.model
 *.pyc
 *.bin
 *.pkl

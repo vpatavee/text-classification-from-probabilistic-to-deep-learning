@@ -87,7 +87,7 @@ def run_pipeline(dataset, **kwargs):
     clf.fit(X_train_tok, y_train)
         
     print("Best parameters set found on development set: ", clf.best_params_)
-    print("Best F1 on development set: %0.2f" % clf.best_score_)
+    print("Best F1 on development set: %0.2f" % clf.best_score_, 2)
     y_test_pred = clf.predict(X_test_tok)
     f1 = f1_score(y_test, y_test_pred)  
     print("F1 on test set: %0.2f" % f1)
