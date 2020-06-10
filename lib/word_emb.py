@@ -5,6 +5,7 @@ from lib.dense_vector_repr import DenseVectorizer
 from lib.nlp_utils import spacy_tokenizer, hash_sents
 from gensim.models import Word2Vec, KeyedVectors
 import os
+import time
 
 
 random_state = 999
@@ -34,6 +35,7 @@ def train_and_eval_model(X_train, X_test, y_train, y_test):
 
 
 def run_pipeline(dataset, embeddings, verbose=False, **kwargs):
+    now = time.time()
     
     x_train, x_test, y_train, y_test = dataset
     
@@ -49,6 +51,7 @@ def run_pipeline(dataset, embeddings, verbose=False, **kwargs):
     # train model and evaluate
     clf = train_and_eval_model(x_train_vect, x_test_vect, y_train, y_test)
     
+    print("time: %0.2f" % (time.time() - now))
     return clf, dense
     
     
@@ -85,9 +88,9 @@ def train_or_load_wv(corpus, use_cache=True, verbose=False, **kwargs):
         return model.wv
     
 
-def train_or_load_wv_transfer(corpus, pretrained_word2vec_path, use_cache=True, verbose=False, lockf=0, n_transfer=None, **kwargs):
+def train_or_load_wv_transfer(corpus, pretrained_word2vec_path, use_cache=True, verbose=False, lockf=0, n_transfer=100000, **kwargs):
     
-    setting = "_".join(str(k) + ":" + str(v) for k,v in kwargs.items())
+    setting = "_".join(str(k) + ":" + str(v) for k,v in kwargs.items()) + "_lockf:{}_n_transfer:{}".format(str(lockf), str(n_transfer))
     hash_code = hash_sents(corpus)
     fname = WV_MODEL_TRANSFER_PATH + setting + hash_code + ".model"
     
@@ -107,11 +110,17 @@ def train_or_load_wv_transfer(corpus, pretrained_word2vec_path, use_cache=True, 
         tokenized_corpus = spacy_tokenizer(corpus, verbose, **kwargs)
         corpus_vocab_set = set([e for sent in tokenized_corpus for e in sent])
         word2vec_vocab = list(pretrained_word2vec.vocab)
-        n_transfer = len(word2vec_vocab) if not n_transfer
-        word2vec_vocab_set = set(word2vec_vocab[:n_transfer])
-        vocab_set = corpus_vocab_set.union(word2vec_vocab_set)
+            
+        word2vec_vocab_set = set(word2vec_vocab[:n_transfer]) 
+        vocab_set = corpus_vocab_set.union(word2vec_vocab_set) # now number of augmented words is at most equal to n_transfer
         
-        assert len(vocab_set) > len(corpus_vocab_set)
+        # keep adding until umber of augmented words = n_transfer
+        i = n_transfer
+        while len(vocab_set) - len(corpus_vocab_set) < n_transfer:
+            vocab_set.add(word2vec_vocab[i])
+            i += 1
+        
+        assert len(vocab_set) - len(corpus_vocab_set) == n_transfer
 
         size = kwargs.get("size", 300)
         window = kwargs.get("window", 5)

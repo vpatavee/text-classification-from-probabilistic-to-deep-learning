@@ -1,5 +1,3 @@
-# modified from https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/2_BasicModels/word2vec.py
-
 import tensorflow as tf
 import numpy as np
 import collections
@@ -8,7 +6,17 @@ import random
 import urllib.request
 import zipfile
 
+"""
+This class is inteneded that to mimick the Gensim Word2Vec.
+During the experiment, I found that the Word2Vec model
+does not achieve as good performance as expect. Before
+jumping into conclusion that Word2Vec performs worse
+than probabilistic model, I want to implement Word2Vec
+from scratch and compare the result. It turns out that
+this Word2Vec model does not give any better result than Gensim.
 
+Note: modified from https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/2_BasicModels/word2vec.py
+"""
 
 class MyWord2VecModel():
     def __init__(self, embedding_size, vocabulary_size, num_sampled):
@@ -41,8 +49,6 @@ class MyWord2VecModel():
         return loss_op
 
 
-
-
 def load_data_set():
     url = 'http://mattmahoney.net/dc/text8.zip'
     data_path = 'text8.zip'
@@ -55,87 +61,6 @@ def load_data_set():
         text_words = f.read(f.namelist()[0]).lower().split()
     return text_words
 
-
-# def build_vocab(text_words):
-#     # Build the dictionary and replace rare words with UNK token
-#     count = [('UNK', -1)]
-#     # Retrieve the most common words
-#     count.extend(collections.Counter(text_words).most_common(max_vocabulary_size - 1))
-#     # Remove samples with less than 'min_occurrence' occurrences
-#     for i in range(len(count) - 1, -1, -1):
-#         if count[i][1] < min_occurrence:
-#             count.pop(i)
-#         else:
-#             # The collection is ordered, so stop when 'min_occurrence' is reached
-#             break
-#     # Compute the vocabulary size
-#     vocabulary_size = len(count)
-#     # Assign an id to each word
-#     word2id = dict()
-#     for i, (word, _)in enumerate(count):
-#         word2id[word] = i
-
-#     data = list()
-#     unk_count = 0
-#     for word in text_words:
-#         # Retrieve a word id, or assign it index 0 ('UNK') if not in dictionary
-#         index = word2id.get(word, 0)
-#         if index == 0:
-#             unk_count += 1
-#         data.append(index)
-#     count[0] = ('UNK', unk_count)
-#     id2word = dict(zip(word2id.values(), word2id.keys()))
-
-#     print("Words count:", len(text_words))
-#     print("Unique words:", len(set(text_words)))
-#     print("Vocabulary size:", vocabulary_size)
-#     print("Most common words:", count[:10])
-#     return data, id2word
-
-# def gen_data(data, num_skips, skip_window):
-#     data_index = 0
-#     # get window size (words left and right + current one)
-#     span = 2 * skip_window + 1
-#     buffer = collections.deque(maxlen=span) 
-
-#     buffer.extend(data[data_index:data_index + span])
-#     data_index += span
-#     while data_index < len(data):
-#         context_words = [w for w in range(span) if w != skip_window] 
-#         words_to_use = random.sample(context_words, num_skips)
-#         for context_word in words_to_use:
-#             x = buffer[skip_window]
-#             y = buffer[context_word]
-#             yield x, y       
-#         buffer.append(data[data_index])     
-#         data_index += 1
-
-# def create_date_set(data, num_skips, skip_window):
-#     def gen_data():
-#         data_index = 0
-#         # get window size (words left and right + current one)
-#         span = 2 * skip_window + 1
-#         buffer = collections.deque(maxlen=span) 
-
-#         buffer.extend(data[data_index:data_index + span])
-#         data_index += span
-#         while data_index < len(data):
-#             context_words = [w for w in range(span) if w != skip_window] 
-#             words_to_use = random.sample(context_words, num_skips)
-#             for context_word in words_to_use:
-#                 x = buffer[skip_window]
-#                 y = buffer[context_word]
-#                 yield x, [y]      
-#             buffer.append(data[data_index])     
-#             data_index += 1
-
-#     dataset = tf.data.Dataset.from_generator(
-#         gen_data,
-#         (tf.int64, tf.int64),
-#         (tf.TensorShape([]), tf.TensorShape([1])),        
-#     )
-
-#     return dataset
 
 
 class MyWord2Vec:
@@ -241,48 +166,6 @@ class MyWord2Vec:
             var_list=[self.model.embedding, self.model.nce_weights, self.model.nce_biases])
         return loss
 
-    
-
-# create toy data set
-# x = tf.convert_to_tensor(np.array([3,2,4,3]), dtype='int64')
-# label =  tf.convert_to_tensor(np.array([5,4,1,2]).reshape(-1,1), dtype='int64')
-# print(x)
-# print(label)
-
-# create dataset
-# text_words = load_data_set()
-
-# dataset = create_date_set(data,2, 3).batch(4)
-
-# create model
-# model = MyWord2VecModel(embedding_size=10, vocabulary_size=len(id2word), num_sampled=2)
-
-# # optimizer
-# opt = tf.compat.v1.train.GradientDescentOptimizer(learning_rate=0.1)
-
-# train
-# @tf.function
-# def train_step(x ,y):
-#     loss = model.loss(x, y)
-
-#     opt.minimize(loss, var_list=[model.embedding, model.nce_weights, model.nce_biases])
-#     return loss
-
-# # train_step()
-# for epoch in range(50):
-#     loss, n = 0, 0
-#     for i, (x,y) in enumerate(dataset):
-#         # print("batch", i)
-#         loss += train_step(x,y)
-#         n +=1
-#     print(loss.numpy()/n)
-
-# emb = model.embedding
-# print(emb)
-
-
-
-# print(model.loss(x, label))
 
 if __name__ == "__main__":
     corpus = load_data_set()

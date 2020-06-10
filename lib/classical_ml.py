@@ -5,6 +5,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from lib.nlp_utils import spacy_tokenizer
+import time
+
 
 random_state=999
 
@@ -51,6 +53,8 @@ def create_model_obj(use_nb):
     return model, tuned_parameters
         
 def run_pipeline(dataset, **kwargs):
+    now = time.time()
+    
     x_train, x_test, y_train, y_test = dataset
     
     # tokenize
@@ -87,10 +91,12 @@ def run_pipeline(dataset, **kwargs):
     clf.fit(X_train_tok, y_train)
         
     print("Best parameters set found on development set: ", clf.best_params_)
-    print("Best F1 on development set: %0.2f" % clf.best_score_, 2)
+    print("Best F1 on development set: %0.2f" % clf.best_score_)
     y_test_pred = clf.predict(X_test_tok)
     f1 = f1_score(y_test, y_test_pred)  
     print("F1 on test set: %0.2f" % f1)
+    
+    print("time: %0.2f" % (time.time() - now))
     
     return clf, vectorizer
    
