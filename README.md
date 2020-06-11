@@ -30,7 +30,7 @@ text classification ...
 - Text Scoring - 
 - Data Enrichment - Imagine
 
-**A bit about dataset**
+**Dataset**
 
 TODO TODO TODO TODO TODO TODO TODO TODO
 TODO TODO TODO TODO TODO TODO TODO TODO
@@ -55,9 +55,15 @@ that you are interested in particular.
     
 **Environmental Setup**
 
-    - Python 3.6, venv, requirements.txt, SpaCy
-    - Models (for unning Notebook 2,3)
-    - Models BERT (
+First, clone this reposiory to your working environment. Make sure you have have Python 3.6 installed.
+Although these Notebooks were developed in Python 3.6, earler Python 3 might also work. 
+
+1. create virtual environment (not required, but highly recommended). In you working directory,
+do `python3 -m venv venv` and activate virtual environment `source venv/bin/activate`. 
+2. install prerequisite `pip install -r requiresment.txt`
+3. download spaCy model `python -m spacy download en_core_web_sm`
+4. some Notebooks e.g. Notebook 2,3 and 4, may require special library. Follow the instruction in the Notebooks.
+    
     
 **Sections**
 
