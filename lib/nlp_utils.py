@@ -75,6 +75,7 @@ def hash_sents(sents):
         m.update(e.encode('utf-8')) 
     return  m.hexdigest()
 
+
 def spacy_tokenizer(sents, lower=False, lemma=False, ignore=None, use_cache=True, do_preprocess=True, verbose=False, **kwargs):          
     # use_cache 70 s, not use_cache 327 s
     doc_bin = load_or_create_spacy_doc(sents, do_preprocess, use_cache, verbose)

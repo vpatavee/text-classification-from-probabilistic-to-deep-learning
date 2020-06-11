@@ -52,7 +52,7 @@ def create_model_obj(use_nb):
 
     return model, tuned_parameters
         
-def run_pipeline(dataset, **kwargs):
+def run_pipeline(dataset, verbose=False, **kwargs):
     now = time.time()
     
     x_train, x_test, y_train, y_test = dataset
@@ -62,8 +62,8 @@ def run_pipeline(dataset, **kwargs):
     # here we tokenize beforehand just for the sake of runtime efficiency of our 
     # experiments. Since we have to run several experiments, it is faster to tokenize 
     # just once and next time we just load from disk. Not recommend for production level codes.
-    X_train_tok = spacy_tokenizer(x_train, **kwargs)
-    X_test_tok = spacy_tokenizer(x_test,  **kwargs)
+    X_train_tok = spacy_tokenizer(x_train, verbose=verbose, **kwargs)
+    X_test_tok = spacy_tokenizer(x_test, verbose=verbose, **kwargs)
     
     is_tfidf = kwargs.get("tfidf", False)
     is_bigram = kwargs.get("bigram", False)
