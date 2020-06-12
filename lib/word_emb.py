@@ -40,8 +40,8 @@ def run_pipeline(dataset, embeddings, verbose=False, **kwargs):
     x_train, x_test, y_train, y_test = dataset
     
     # tokenize
-    X_train_tok = spacy_tokenizer(x_train, verbose=verbose, verbose=verbose, **kwargs)
-    X_test_tok = spacy_tokenizer(x_test, verbose=verbose,  verbose-verbose **kwargs)
+    X_train_tok = spacy_tokenizer(x_train, verbose=verbose, **kwargs)
+    X_test_tok = spacy_tokenizer(x_test, verbose=verbose, **kwargs)
 
     # vectorize
     dense = DenseVectorizer(embeddings, **kwargs)
