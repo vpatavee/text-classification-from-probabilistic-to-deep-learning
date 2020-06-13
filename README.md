@@ -16,7 +16,7 @@ So why text classification is so important? I intentionally used
 word "Text Classification" not "Sentiment Analysis" for reasons, despite the sentiment
 analysis dataset we will be using. The text classification is broader problem set.
 We can think of sentiment analysis as a subset of text classification, 
-where classes are good and bad sentiment. Generally, the real word problems are not neccesary  
+where classes are good and bad sentiment. Generally, the real word problems are not neccesary
 well-scoped, as they are created from human perspective not acadamic. 
 What we usually do is to reduce those problems into
 some problem sets that are well-scoped that we know how to solve. Fortunately, lots of 
