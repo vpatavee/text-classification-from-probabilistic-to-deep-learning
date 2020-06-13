@@ -2,7 +2,7 @@
 
 
 This blog is a detailed review and experiments of text classification techniques, from classical technique in 1960s
-like Naive Bayes to 2010s technique like LSTM and BERT. We will. By following these experiments, you will
+like Naive Bayes to 2010s technique like LSTM and BERT. By following these experiments, you will
 get some senses of what techniques and variations you can do to solve text classification.
 What the intuitions behind those techniques and what outcomes you should exepect. In each 
 experiments, there are links to related papers, Stackoverflow or textbook discussion so that you have
