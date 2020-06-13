@@ -42,16 +42,14 @@ This simplification is usually good enough for most industrial problems.
 
 
 **Dataset**
+
 We will use [IMDB Review](https://www.tensorflow.org/datasets/catalog/imdb_reviews) in this experiment.
 
 **Do and Don't**
-
 Do
-
 - experiment and discuss on text classifcation techniques in details which you can apply to your own problems
 - review related NLP theory and provide links for further study
 - provide extensive use of most common ML/NLP libraries i.e. spaCy, sklearn, tensorflow, gensim etc.
-
 Don't
 - introduce novel text classification techniques
 
