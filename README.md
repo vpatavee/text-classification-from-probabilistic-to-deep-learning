@@ -1,10 +1,9 @@
 # Text Classification: From Probabilistic Models To Deep Learning
 
-
 This blog is a detailed review and experiments of text classification techniques, from classical technique in 1960s
 like Naive Bayes to 2010s technique like LSTM and BERT. By following these experiments, you will
 get some senses of what techniques and variations you can do to solve text classification, 
-intuitions behind those techniques and what outcomes you should exepect. In each 
+intuitions behind those techniques and outcomes you should exepect. In each 
 experiments, there are links to related papers, Stackoverflow discussion or textbook so that you have
 comprehensive knowledges on the technical topic being discussed.
 
