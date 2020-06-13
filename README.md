@@ -75,6 +75,7 @@ do `python3 -m venv venv` and activate virtual environment `source venv/bin/acti
 This block is organized into 5 chapters.
     
 **0. GTKY**
+
 Most data scientist miss this very important GTKY step. They just download the data and rush into building models. 
 However, when you do empirical study, it is very important to know the data. 
 You may come up with intuitions from just a glance. In this Notebook, 
