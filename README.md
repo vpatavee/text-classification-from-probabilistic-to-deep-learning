@@ -1,6 +1,5 @@
 # Text Classification: From Probabilistic Models To Deep Learning
 
-## Introduction
 
 This blog is a detailed review and experiments of text classification techniques, from classical technique in 1960s
 like Naive Bayes to 2010s technique like LSTM and BERT. We will. By following these experiments, you will
@@ -48,6 +47,7 @@ We will use [IMDB Review](https://www.tensorflow.org/datasets/catalog/imdb_revie
 **Do and Don't**
 
 Do
+
 - experiment and discuss on text classifcation techniques in details which you can apply to your own problems
 - review related NLP theory and provide links for further study
 - provide extensive use of most common ML/NLP libraries i.e. spaCy, sklearn, tensorflow, gensim etc.
@@ -75,33 +75,33 @@ do `python3 -m venv venv` and activate virtual environment `source venv/bin/acti
     
 This block is organized into 5 chapters.
     
-### 0. GTKY
+**0. GTKY**
 Most data scientist miss this very important GTKY step. They just download the data and rush into building models. 
 However, when you do empirical study, it is very important to know the data. 
 You may come up with intuitions from just a glance. In this Notebook, 
 we will get to know our dataset as well as discuss some text preprocessing techniques we can use.
 
 
-### 1. Classical Machine Learning Models
+**1. Classical Machine Learning Models**
 
 In this Notebook, we will focus on tokenization, vectorization (how to featurize text)
 and classical classification models i.e. Naive Bayes and Logistic Regression.
 
 
-### 2. Word Embeddings
+**2. Word Embeddings**
 
 In this Notebook, we will jump to early 2000s era when the word embeddings is introduced.
 We will also experiment vectorization techniques which is different from Notebook 1.
 We will use pre-trained word embeddings model: GloVE and Word2Vec as input of our text classifcation.
 
-### 3. More on Word Embeddings
+**3. More on Word Embeddings**
 
 In this Notebook, we will not use pre-trained word embeddings, but will train it from scrath (you
 will se why it's necessary). We will focus on model hyperparameters in their effect. We will also
 try transfer learning concept on our word embeddings training process.
 
 
-### 4. BERT
+**4. BERT**
 
 TODO TODO TODO TODO TODO TODO TODO TODO
 TODO TODO TODO TODO TODO TODO TODO TODO
@@ -109,7 +109,7 @@ TODO TODO TODO TODO TODO TODO TODO TODO
 TODO TODO TODO TODO TODO TODO TODO TODO
 TODO TODO TODO TODO TODO TODO TODO TODO
 
-### 5. GPT-2
+**5. GPT-2**
 
 TODO TODO TODO TODO TODO TODO TODO TODO
 TODO TODO TODO TODO TODO TODO TODO TODO
