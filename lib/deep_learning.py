@@ -1,3 +1,5 @@
+# from https://www.tensorflow.org/tutorials/text/text_classification_rnn
+
 import tensorflow as tf
 
 # This parameters should be set based on resource of your machine
@@ -37,3 +39,30 @@ def run_lstm_pipeline(train_dataset, test_dataset, info):
 
     print('Test Loss: {}'.format(test_loss))
     print('Test Accuracy: {}'.format(test_acc))
+    
+    
+class RNN(tf.keras.Model):
+    def __init__(self, vocab_size, embedding_dim, enc_units, batch_sz):
+        super(RNN, self).__init__()
+        self.batch_sz = batch_sz
+        self.enc_units = enc_units
+        
+        self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
+        self.lstm = tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(enc_units))
+        self.fc = tf.keras.layers.Dense(enc_units, activation='relu')
+        self.out = tf.keras.layers.Dense(1)
+        
+
+    def call(self, x, hidden):
+        x = self.embedding(x)
+        x = self.lstm(x, initial_state=hidden) # do you need initial_state?
+        x = self.fc(x)
+        output = self.out(x)
+        return output
+
+    def initialize_hidden_state(self):
+        return tf.zeros((self.batch_sz, self.enc_units))
+    
+    
+    
+    
