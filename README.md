@@ -54,6 +54,7 @@ Do
 
 Don't
 - introduce novel text classification techniques
+- accuracy oriented. This blog emphasize more on exploring every possible techniques, theory and intuition behind them, also code samples, so that reader can apply to heir own text classification problems. For accuracy beating, check out [this](http://nlpprogress.com/english/sentiment_analysis.html) and [this](https://paperswithcode.com/sota/sentiment-analysis-on-imdb).
 
 **Target Audience**
 - If you have background in ML but not NLP, you may follow each experiment one by one
@@ -101,18 +102,4 @@ will se why it's necessary). We will focus on model hyperparameters in their eff
 try transfer learning concept on our word embeddings training process.
 
 
-**4. BERT**
-
-TODO TODO TODO TODO TODO TODO TODO TODO
-TODO TODO TODO TODO TODO TODO TODO TODO
-TODO TODO TODO TODO TODO TODO TODO TODO
-TODO TODO TODO TODO TODO TODO TODO TODO
-TODO TODO TODO TODO TODO TODO TODO TODO
-
-**5. GPT-2**
-
-TODO TODO TODO TODO TODO TODO TODO TODO
-TODO TODO TODO TODO TODO TODO TODO TODO
-TODO TODO TODO TODO TODO TODO TODO TODO
-TODO TODO TODO TODO TODO TODO TODO TODO
-TODO TODO TODO TODO TODO TODO TODO TODO
+**3. Deep Learnings**
