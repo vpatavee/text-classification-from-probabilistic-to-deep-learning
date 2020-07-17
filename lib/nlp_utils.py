@@ -16,6 +16,29 @@ SYM = re.compile(r'[_,.\-()?]+')
 EXCLAIM = re.compile(r'!')
 
 
+POS_TO_TAG = {
+    "ADJ": 0,
+    "ADP": 1,
+    "ADV": 2,
+    "AUX": 3,
+    "CONJ": 4,
+    "DET": 5,
+    "INTJ": 6,
+    "NOUN": 7,
+    "NUM": 8,
+    "PART": 9,
+    "PRON": 10,
+    "PROPN": 11 ,
+    "PUNCT": 12,
+    "SCONJ": 12 ,
+    "SYM": 13,
+    "VERB": 14,
+    "X": 15,
+    "SPACE": 16,
+    "CCONJ": 17
+}
+
+
 def remove_html_tags(text):
     return TAG_RE.sub("", text)
 
@@ -46,7 +69,7 @@ def load_or_create_spacy_doc(sents, do_preprocess, use_cache, verbose):
         if verbose:
             print("Loading tokenized document from disk...")
         with open(fname, "rb") as f:
-            doc_bin = DocBin().from_bytes(f.read())
+            doc_bin = DocBin(attrs=["POS", "ENT_TYPE"]).from_bytes(f.read())
         if verbose:
             print("Finished loading tokenized document in {:.2f}s!".format(time.time() - now))
         return doc_bin
@@ -54,8 +77,8 @@ def load_or_create_spacy_doc(sents, do_preprocess, use_cache, verbose):
         now = time.time()
         if verbose:
             print("Start tokenizing document...")
-        doc_bin = DocBin()
-        for doc in nlp.pipe(sents, disable=["parser", "tagger"]):
+        doc_bin = DocBin(attrs=["POS", "ENT_TYPE"])
+        for doc in nlp.pipe(sents, disable=["parser"]):
             doc_bin.add(doc)
         with open(fname, "wb") as f:
             f.write(doc_bin.to_bytes())
@@ -76,12 +99,14 @@ def hash_sents(sents):
     return  m.hexdigest()
 
 
-def spacy_tokenizer(sents, lower=False, lemma=False, ignore=None, use_cache=True, do_preprocess=True, verbose=False, **kwargs):          
+def spacy_tokenizer(sents, lower=False, lemma=False, ignore=None, use_cache=True, do_preprocess=True, verbose=False, is_pos=False, **kwargs):          
     # use_cache 70 s, not use_cache 327 s
     doc_bin = load_or_create_spacy_doc(sents, do_preprocess, use_cache, verbose)
     docs = list()
+    poss = list()
     for doc_obj in doc_bin.get_docs(nlp.vocab):
         doc = list()
+        pos = list()
         for tok_obj in doc_obj:
             if ignore and is_ignore(tok_obj, ignore):
                 continue
@@ -93,9 +118,14 @@ def spacy_tokenizer(sents, lower=False, lemma=False, ignore=None, use_cache=True
                 doc.append(tok.lower())
             else:
                 doc.append(tok)
+            if is_pos:
+                pos.append(POS_TO_TAG[tok_obj.pos_])
+        if is_pos:
+            poss.append(pos)
         docs.append(doc)
+    if is_pos:
+        return docs, poss
     return docs
-
 
 def print_stat(list_of_text, models=None):
     """

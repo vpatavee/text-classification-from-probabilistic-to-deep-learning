@@ -85,6 +85,68 @@ class BiLSTMPoolClassification(tf.keras.Model):
         return output
 
     
+# class BiLSTMPoolLinguisticClassification(tf.keras.Model):
+#     def __init__(self, vocab_size, embedding_dim, enc_units, batch_sz, dropout, num_ling_feat, init=None):
+#         super(BiLSTMPoolLinguisticClassification, self).__init__()
+#         self.batch_sz = batch_sz
+#         self.enc_units = enc_units
+#         self.num_ling_feat = num_ling_feat
+#         if init:
+#             self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim,embeddings_initializer=init)
+#         else:
+#             self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
+            
+#         self.lstm = tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(enc_units, return_sequences=True))
+#         self.dropout = tf.keras.layers.Dropout(dropout, seed=999)
+#         self.fc = tf.keras.layers.Dense(enc_units, activation='relu')
+#         self.out = tf.keras.layers.Dense(1)
+        
+
+#     def call(self, x):   
+#         word_id, ling = x
+        
+#         x = tf.concat([
+#             self.embedding(word_id), 
+#             tf.one_hot(ling, self.num_ling_feat) 
+#         ], axis=2)
+        
+#         x = self.lstm(x) 
+#         x = tf.reduce_sum(x, axis=1)
+#         x = self.dropout(x)
+#         x = self.fc(x)
+#         output = self.out(x)
+#         return output
+     
+class BiLSTMPoolLinguisticClassification(tf.keras.Model):
+    def __init__(self, vocab_size, embedding_dim, enc_units, batch_sz, dropout, num_ling_feat, init=None):
+        super(BiLSTMPoolLinguisticClassification, self).__init__()
+        self.batch_sz = batch_sz
+        self.enc_units = enc_units
+        self.num_ling_feat = num_ling_feat
+        self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
+        self.embedding_ling = tf.keras.layers.Embedding(num_ling_feat, 10)
+            
+        self.lstm = tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(enc_units, return_sequences=True))
+        self.dropout = tf.keras.layers.Dropout(dropout, seed=999)
+        self.fc = tf.keras.layers.Dense(enc_units, activation='relu')
+        self.out = tf.keras.layers.Dense(1)
+        
+
+    def call(self, x):   
+        word_id, ling = x
+        
+        x = tf.concat([
+            self.embedding(word_id), 
+            self.embedding_ling(ling),
+        ], axis=2)
+        
+        x = self.lstm(x) 
+        x = tf.reduce_sum(x, axis=1)
+        x = self.dropout(x)
+        x = self.fc(x)
+        output = self.out(x)
+        return output
+    
 def load_dataset(dataset):
     x_train, x_test, y_train, y_test = dataset
     X_train_tok = spacy_tokenizer(x_train)
@@ -107,6 +169,28 @@ def load_dataset(dataset):
     return train, test, word2idx
 
 
+def load_dataset_with_pos(dataset):
+    x_train, x_test, y_train, y_test = dataset
+    X_train_tok, X_train_pos = spacy_tokenizer(x_train, is_pos=True)
+    X_test_tok, X_test_pos = spacy_tokenizer(x_test, is_pos=True)
+    
+    X_train_seq, X_test_seq, word2idx = tok2seq(X_train_tok, X_test_tok)
+    
+    train =  tf.data.Dataset.from_generator(
+        lambda: iter(zip(X_train_seq, X_train_pos, y_train)),     
+        (tf.int64, tf.int64, tf.int64),
+        (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([]))
+    )
+    
+    test =  tf.data.Dataset.from_generator(
+        lambda: iter(zip(X_test_seq, X_test_pos, y_test)),     
+        (tf.int64, tf.int64, tf.int64),
+        (tf.TensorShape([None]), tf.TensorShape([None]), tf.TensorShape([]))
+    )     
+    
+    return train, test, word2idx
+
+
 def tok2seq(X_train_tok, X_test_tok):
     counter = Counter(w for s in X_train_tok for w in s)
     rare_words = set([k for k in counter if counter[k] == 1])
@@ -119,9 +203,14 @@ def tok2seq(X_train_tok, X_test_tok):
     return X_train_seq, X_test_seq, word2idx
     
 
-def run_lstm_pipeline(dataset, model, embeddings_size=64, hidden_unit=64, dropout=0.0, word2vec=None):
-    train_dataset, test_dataset, word2idx = load_dataset(dataset)
-    run_lstm_pipeline_(train_dataset, test_dataset, model, word2idx, embeddings_size=embeddings_size, hidden_unit=hidden_unit, dropout=dropout, word2vec=word2vec)
+def run_lstm_pipeline(dataset, model_name, embeddings_size=64, hidden_unit=64, dropout=0.0, word2vec=None):
+    if model_name == "BiLSTMPoolLinguisticClassification":
+        train_dataset, test_dataset, word2idx = load_dataset_with_pos(dataset)
+    else:
+        train_dataset, test_dataset, word2idx = load_dataset(dataset)
+        
+    
+    run_lstm_pipeline_(train_dataset, test_dataset, model_name, word2idx, embeddings_size=embeddings_size, hidden_unit=hidden_unit, dropout=dropout, word2vec=word2vec)
 
 def create_init(word2vec, word2idx, embeddings_size):
     # https://stackoverflow.com/questions/55770009/how-to-use-a-pre-trained-embedding-matrix-in-tensorflow-2-0-rnn-as-initial-weigh
@@ -137,7 +226,7 @@ def create_init(word2vec, word2idx, embeddings_size):
     return tf.keras.initializers.Constant(init_np)
             
     
-def run_lstm_pipeline_(train, test, model, word2idx, embeddings_size=64, hidden_unit=64, dropout=0.0, word2vec=None):
+def run_lstm_pipeline_(train, test, model_name, word2idx, embeddings_size=64, hidden_unit=64, dropout=0.0, word2vec=None):
     # hyperparameters
     buffer = 10000
     batch_size = 64
@@ -155,10 +244,12 @@ def run_lstm_pipeline_(train, test, model, word2idx, embeddings_size=64, hidden_
         init = None
         
     vocab_size = len(word2idx)
-    if model == "BiLSTMLastStateClassification":
+    if model_name == "BiLSTMLastStateClassification":
         model = BiLSTMLastStateClassification(vocab_size, embeddings_size, hidden_unit, batch_size, dropout, init)
-    elif model == "BiLSTMPoolClassification":
+    elif model_name == "BiLSTMPoolClassification":
         model = BiLSTMPoolClassification(vocab_size, embeddings_size, hidden_unit, batch_size, dropout, init)
+    elif model_name == "BiLSTMPoolLinguisticClassification":
+        model = BiLSTMPoolLinguisticClassification(vocab_size, embeddings_size, hidden_unit, batch_size, dropout, 18, init)
     else:
         print("Invalid Model Class")
         return
@@ -198,12 +289,18 @@ def run_lstm_pipeline_(train, test, model, word2idx, embeddings_size=64, hidden_
         test_loss.reset_states()
         test_accuracy.reset_states()
         start = time.time()
-
-        for inp, targ in train_dataset:        
-            train_step(inp, targ)
-
-        for inp, targ in test_dataset:        
-            test_step(inp, targ)
+        if model_name == "BiLSTMPoolLinguisticClassification":
+            for inp_word, inp_ling, targ in train_dataset:        
+                train_step((inp_word, inp_ling), targ)  
+        else:
+            for inp, targ in train_dataset:        
+                train_step(inp, targ)
+        if model_name == "BiLSTMPoolLinguisticClassification":
+            for inp_word, inp_ling, targ in test_dataset:        
+                test_step((inp_word, inp_ling), targ)
+        else:
+            for inp, targ in test_dataset:        
+                test_step(inp, targ)        
 
         template = 'Epoch {}, Loss: {:.2f}, Accuracy: {:.2f}, Test Loss: {:.2f}, Test Accuracy: {:.2f}, Time: {:.2f} s'
         print(template.format(
