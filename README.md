@@ -38,13 +38,13 @@ This blog focuses on:
 - reviews of related NLP topics and link to external resources 
 - code samples for most common ML/NLP libraries i.e. spaCy, sklearn, tensorflow, gensim 
 
-This blog do NOT focus on:
+This blog does NOT focus on:
 - "novel" text classification techniques
 - beating the benchmark for this particular dataset. For IMDB dataset leaderboards, check out [this](http://nlpprogress.com/english/sentiment_analysis.html) and [this](https://paperswithcode.com/sota/sentiment-analysis-on-imdb)
 
 
 ## Dataset
-We will use [IMDB Review](http://ai.stanford.edu/~amaas/data/sentiment/) in this experiment. This is a dataset for binary sentiment classification containing substantially more data than previous benchmark datasets. It consists 25,000 highly polar movie reviews for training, and 25,000 for testing. 
+We will use [IMDB Review](http://ai.stanford.edu/~amaas/data/sentiment/) in this experiment. It consists 25,000 highly polar movie reviews for training, and 25,000 for testing. 
 
 
 ## Target Audience
@@ -68,6 +68,7 @@ do `python3 -m venv venv` and activate virtual environment `source venv/bin/acti
 ## Notebooks
     
 **0. GTKY**
+
 Most data scientists miss this very fist but important GTKY (Get To Know You) step. 
 They just download the data and jump into models development. 
 However, when you do experiments, it is crucial to know the dataset very well. 
