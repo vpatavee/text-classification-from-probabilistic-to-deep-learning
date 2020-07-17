@@ -1,6 +1,5 @@
 # Text Classification: From Probabilistic Models To Deep Learning
 
-
 This blog is a detailed review and experiments of text classification techniques, from classical technique in 1960s
 e.g. Naive Bayes to 2010s technique e.g. LSTM and BERT. By following these experiments, you will
 get some senses of what techniques and variations you can do to solve text classification, 
@@ -20,6 +19,7 @@ analysis dataset used in this blog. The text classification is broader problem s
 You can think of sentiment analysis as a subset of text classification, 
 where classes are sentiments. In fact, the real world problems are not necessary  
 well-scoped, as they are created from human perspective not from academic. 
+
 What we usually do is to reduce those problems into
 some problem sets that are well-scoped and we know how to solve. Fortunately, lots of 
 NLP problems in real world can be reduced to text classification. The very basic examples
@@ -38,6 +38,7 @@ This blog focuses on:
 - reviews of related NLP topics and link to external resources 
 - code samples for most common ML/NLP libraries i.e. spaCy, sklearn, tensorflow, gensim 
 
+
 This blog does NOT focus on:
 - "novel" text classification techniques
 - beating the benchmark for this particular dataset. For IMDB dataset leaderboards, check out [this](http://nlpprogress.com/english/sentiment_analysis.html) and [this](https://paperswithcode.com/sota/sentiment-analysis-on-imdb)
@@ -45,6 +46,7 @@ This blog does NOT focus on:
 
 ## Dataset
 We will use [IMDB Review](http://ai.stanford.edu/~amaas/data/sentiment/) in this experiment. It consists 25,000 highly polar movie reviews for training, and 25,000 for testing. 
+
 
 
 ## Target Audience
@@ -88,8 +90,11 @@ In this Notebook, we will jump from 1960s to 2000s when the Word Embeddings is i
 
 
 **3. More on Word Embeddings**
+
 In this Notebook, we will go beyond pre-trained Word Embeddings we use in Notebook 2 by training it from scratch (We will discuss why we should to that inside the Notebook). We will experiments several Word Embeddings model hyperparameters and their effects, and links to related research papers. By the end of the Notebook, we will experiment [Transfer Learning](https://en.wikipedia.org/wiki/Transfer_learning), a technique that store knowledge gained while solving one problem and applying it to a different but related problem, on the word embeddings.
 
 
 **4. Deep Learnings**
+
 Deep Learning has been widely used for solving NLP problems since early 2010s. In this Notebook, we will use variety of LSTM and CNN based model on our dataset, and discuss some theory behind the models as usual. In 2017, after the publication of research paper [Attention Is All You Need](https://arxiv.org/abs/1706.03762), the trend has been shifting from LSTM based model to transformer based language models, for example, [BERT](https://arxiv.org/abs/1810.04805) and [GPPT-2](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf). Check out [this](https://github.com/google-research/bert/blob/master/predicting_movie_reviews_with_bert_on_tf_hub.ipynb) on how we can use BERT language model to solve IMDB dataset.
+
