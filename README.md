@@ -82,7 +82,7 @@ rule-based model. Let's say giving positive review if word "good", "fantastic" o
 Set this as the baseline model. Most industrial NLP problems can be solved with decent accuracy using simple rule based model.
 
 
-**1. Classical Machine Learning Models**
+**1. Classical Machine Learning**
 
 We will discuss classical classification models i.e. Naive Bayes and Logistic Regression. Since it's the first Notebook, I will walk you through the various tokenization and vectorization processes. The following Notebooks will skip this parts.
 
@@ -93,10 +93,10 @@ We will jump from 1960s to 2000s when the Word Embeddings was introduced. We wil
 
 **3. More on Word Embeddings**
 
-We will go beyond pre-trained Word Embeddings we use in Notebook 2 by training it from scratch (we will discuss why we should do that inside the Notebook). We will experiment several Word Embeddings model hyperparameters and their effect and attach links to related research papers. By the end of the Notebook, we will experiment [Transfer Learning](https://en.wikipedia.org/wiki/Transfer_learning), a technique that store knowledge gained while solving one problem and applying it to a different but related problem, on the word embeddings.
+We will go beyond pre-trained Word Embeddings we use in Notebook 2 by training it from scratch (we will discuss why we should do that inside the Notebook). We will experiment several Word Embeddings model hyperparameters and their effect and attach links to related research papers. By the end of the Notebook, we will experiment [Transfer Learning](https://en.wikipedia.org/wiki/Transfer_learning), a technique that stores knowledge gained while solving one problem and applying it to a different but related problem, on the word embeddings.
 
 
-**4. Deep Learnings**
+**4. Deep Learning**
 
-Deep Learning has been widely used for solving NLP problems since early 2010s. In this Notebook, we will use variety of LSTM and CNN based model on our dataset, and discuss some theory behind the models as usual. In 2017, after the publication of research paper [Attention Is All You Need](https://arxiv.org/abs/1706.03762), the trend has been shifting from LSTM based model to transformer based language models, for example, [BERT](https://arxiv.org/abs/1810.04805) and [GPPT-2](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf). Check out [this](https://github.com/google-research/bert/blob/master/predicting_movie_reviews_with_bert_on_tf_hub.ipynb) on how we can use BERT language model to solve IMDB dataset.
+Deep Learning has been widely used for solving NLP problems since early 2010s. In this Notebook, we will use variety of LSTM and CNN based model on our dataset and discuss some theory behind the models as usual. In 2017, after the publication of research paper [Attention Is All You Need](https://arxiv.org/abs/1706.03762), the trend has been shifting from LSTM based model to transformer based language models, for example, [BERT](https://arxiv.org/abs/1810.04805) and [GPPT-2](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf). Check out [this](https://github.com/google-research/bert/blob/master/predicting_movie_reviews_with_bert_on_tf_hub.ipynb) on how we can use BERT language model to solve IMDB dataset.
 
