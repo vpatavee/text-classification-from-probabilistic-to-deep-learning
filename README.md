@@ -2,26 +2,27 @@
 
 This blog is a detailed review and experiments of text classification techniques, from classical technique in 1960s
 e.g. Naive Bayes to 2010s technique e.g. LSTM and BERT. By following these experiments, you will
-get some senses of what techniques and variations you can do to solve text classification, 
+get some sense of what techniques and variations you can do to solve text classification, 
 the intuitions behind those techniques and outcomes you should expect. 
-It also provides the code samples that you can apply to your own text classification problems.
+This blog also provides the code samples that you can apply to your own text classification problems.
 Inside the Notebooks, there are set of experiments, theory behind them and external resources
 e.b. links to related papers, Stack Overflow or textbook so that you have
 comprehensive knowledges on the technical topic being discussed.
 
 There is no hard rule for NLP. Unlike mathematical problems which you can formally proof, NLP is a lot more empirical. 
 It opens for your creativities to explore new notions, setup the experiments and test them.
-Then, you may come up with logical explanation that support the results of your experiments. However, you will never be able to formally prove it. While working on NLP problems, you have to keep that in mind.
+Then, you may come up with logical explanation that supports the results of your experiments. 
+However, you will never be able to formally prove it. While working on NLP problems, you have to keep that in mind.
 
-So why text classification problems are so important? I intentionally named this blog as
+So why are text classification problems so important? I intentionally named this blog as
 "Text Classification" not "Sentiment Analysis", despite the sentiment
 analysis dataset used in this blog. The text classification is broader problem set.
 You can think of sentiment analysis as a subset of text classification, 
-where classes are sentiments. In fact, the real world problems are not necessary  
+where classes are sentiments. In fact, the real world problems are not necessary 
 well-scoped, as they are created from human perspective not from academic. 
 
 What we usually do is to reduce those problems into
-some problem sets that are well-scoped and we know how to solve. Fortunately, lots of 
+some problem sets that are well-scoped, and we know how to solve. Fortunately, lots of 
 NLP problems in real world can be reduced to text classification. The very basic examples
 that are shown up everywhere include
 - sentiment analysis e.g. movie reviews, food reviews, product reviews
