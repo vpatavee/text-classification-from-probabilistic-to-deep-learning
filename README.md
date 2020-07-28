@@ -28,15 +28,15 @@ that are shown up everywhere include
 - sentiment analysis e.g. movie reviews, food reviews, product reviews
 - spam detection
 
-However, there are so many more. For example
-- query classification - imagine you have two different search systems which support different query intention. For example, Google Search has to determine if a query is a question or key words search. If it is a question, it will answer that question directly. Otherwise. it will retrieve the documents that are likely to contain the answer. In order to route queries to right system, we need to discover the intent of the users. The intent discovery can be reduced to text classification problem.
+However, there are many more. For example
+- query classification - imagine you have two different search systems which support different query intentions. For example, Google Search has to determine if a query is a question or key words search. If it is a question, it will answer that question directly. Otherwise. it will retrieve the documents that are likely to contain the answer. In order to route queries to right system, we need to discover the intent of the users. The intent discovery can be reduced to text classification problem.
 - text scoring - for example automated essay gradings, urgency level assignments, etc. Since the prediction target is continuous, we can use regression techniques. However, the classification techniques usually perform better when the features are text. We can reduce this problem set to multiclasses text classification by cutting the continuous target into small ranges. This simplification is good enough for most problems.
 
 This blog focuses on:
 
 - empirical studies and detailed discussions on broad range of text classification techniques which you can apply to your own problems
 - guideline to approach NLP problems systematically
-- reviews of related NLP topics and link to external resources 
+- reviews of related NLP topics and links to external resources 
 - code samples for most common ML/NLP libraries i.e. spaCy, sklearn, tensorflow, gensim 
 
 
@@ -46,7 +46,7 @@ This blog does NOT focus on:
 
 
 ## Dataset
-We will use [IMDB Review](http://ai.stanford.edu/~amaas/data/sentiment/) in this experiment. It consists 25,000 highly polar movie reviews for training, and 25,000 for testing. 
+We will use [IMDB Review](http://ai.stanford.edu/~amaas/data/sentiment/) in this experiment. It consists of 25,000 highly polar movie reviews for training and 25,000 for testing. 
 
 
 
@@ -54,12 +54,12 @@ We will use [IMDB Review](http://ai.stanford.edu/~amaas/data/sentiment/) in this
 - If you have background in ML but not NLP, you may follow each experiment step by step
 and follow the link to external resources throughout the Notebooks. At the end, you will learn fundamental concept
 of text classifcation problems and other related NLP topics.
-- If you have background in ML and NLP, you may jump into specfic notebooks or experiements
+- If you have background in ML and NLP, you may jump into specfic notebooks or experiments
 that you are interested in particular.
     
 ## Environmental Setup
-First, clone this reposiory to your working environment. Make sure you have have Python 3.6 installed.
-Although these Notebooks were developed in Python 3.6, earler Python 3 might also work. 
+First, clone this repository to your working environment. Make sure you have Python 3.6 installed.
+Although these Notebooks were developed in Python 3.6, earlier Python 3 might also work. 
 
 1. create virtual environment (not required, but highly recommended). In you working directory,
 do `python3 -m venv venv` and activate virtual environment `source venv/bin/activate`. 
@@ -72,27 +72,28 @@ do `python3 -m venv venv` and activate virtual environment `source venv/bin/acti
     
 **0. GTKY**
 
-Most data scientists miss this very fist but important GTKY (Get To Know You) step. 
-They just download the data and jump into models development. 
+Most data scientists miss this very first but important GTKY (Get To Know You) step. 
+They usually just download the data and jump into models development. 
 However, when you do experiments, it is crucial to know the dataset very well. 
 You may come up with intuitions from by just giving dataset a glance. In this Notebook, 
-I will walk you trough the IMDB dataset, as well as discuss some essential text preprocessing techniques. 
+I will walk you through the IMDB dataset, as well as discuss some essential text preprocessing techniques. 
 In addition, before start building machine learning models in the following Notebooks, let's create a simple 
-rule-based model. Let's say giving positive review if word "good", "fantastic" and "awesome" is in the review, otherwise giving negative. Set this as the baseline model. Most industrial NLP problems can be solved with decent accuracy using simple rule based model.
+rule-based model. Let's say giving positive review if word "good", "fantastic" or "awesome" is in the review, otherwise giving negative. 
+Set this as the baseline model. Most industrial NLP problems can be solved with decent accuracy using simple rule based model.
 
 
 **1. Classical Machine Learning Models**
 
-In this Notebook, we will discuss classical classification models i.e. Naive Bayes and Logistic Regression. Since it's the first Notebook, I will walk you through the various tokenization, and vectorization processes. The following Notebooks will skip this parts.
+We will discuss classical classification models i.e. Naive Bayes and Logistic Regression. Since it's the first Notebook, I will walk you through the various tokenization and vectorization processes. The following Notebooks will skip this parts.
 
 **2. Word Embeddings**
 
-In this Notebook, we will jump from 1960s to 2000s when the Word Embeddings is introduced. We will start with the brief summary of Word Embeddings and links to external resources. Then, we will discuss several approaches we can make use of word embeddings for text classification and the theory behind them. In this Notebook, we will use most popular pre-trained Word Embeddings namely Word2Vec an GloVE.
+We will jump from 1960s to 2000s when the Word Embeddings was introduced. We will start with the brief summary of Word Embeddings and provide links to external resources. Then, we will discuss several approaches we can make use of word embeddings for text classification and the theory behind them. In this Notebook, we will use most popular pre-trained Word Embeddings namely Word2Vec an GloVE.
 
 
 **3. More on Word Embeddings**
 
-In this Notebook, we will go beyond pre-trained Word Embeddings we use in Notebook 2 by training it from scratch (We will discuss why we should to that inside the Notebook). We will experiments several Word Embeddings model hyperparameters and their effects, and links to related research papers. By the end of the Notebook, we will experiment [Transfer Learning](https://en.wikipedia.org/wiki/Transfer_learning), a technique that store knowledge gained while solving one problem and applying it to a different but related problem, on the word embeddings.
+We will go beyond pre-trained Word Embeddings we use in Notebook 2 by training it from scratch (we will discuss why we should do that inside the Notebook). We will experiment several Word Embeddings model hyperparameters and their effect and attach links to related research papers. By the end of the Notebook, we will experiment [Transfer Learning](https://en.wikipedia.org/wiki/Transfer_learning), a technique that store knowledge gained while solving one problem and applying it to a different but related problem, on the word embeddings.
 
 
 **4. Deep Learnings**
