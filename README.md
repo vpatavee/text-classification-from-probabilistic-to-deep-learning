@@ -98,5 +98,10 @@ We will go beyond pre-trained Word Embeddings we use in Notebook 2 by training i
 
 **4. Deep Learning**
 
-Deep Learning has been widely used for solving NLP problems since early 2010s. In this Notebook, we will use variety of LSTM and CNN based model on our dataset and discuss some theory behind the models as usual. In 2017, after the publication of research paper [Attention Is All You Need](https://arxiv.org/abs/1706.03762), the trend has been shifting from LSTM based model to transformer based language models, for example, [BERT](https://arxiv.org/abs/1810.04805) and [GPPT-2](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf). Check out [this](https://github.com/google-research/bert/blob/master/predicting_movie_reviews_with_bert_on_tf_hub.ipynb) on how we can use BERT language model to solve IMDB dataset.
+Deep Learning has been widely used for solving NLP problems since early 2010s. In this Notebook, we will use variety of LSTM and CNN based model on our dataset and discuss some theory behind the models as usual.
+
+**5. More on Deep Learning**
+
+In 2017, after the publication of research paper [Attention Is All You Need](https://arxiv.org/abs/1706.03762), the trend has been shifting from LSTM based model to transformer based language models, for example, [BERT](https://arxiv.org/abs/1810.04805) and [GPPT-2](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf). Check out [this](https://github.com/google-research/bert/blob/master/predicting_movie_reviews_with_bert_on_tf_hub.ipynb) on how we can use BERT language model to solve IMDB dataset.
+
 
